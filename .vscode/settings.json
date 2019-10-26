@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "lcd_16x28b.h": "c",
+        "myrl78.h": "c"
+    }
+}
