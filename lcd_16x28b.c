@@ -112,8 +112,10 @@ void LCD_init_4_bits(void)
    // envia códigos de inicialização do display
    LCD_send8(0,0x28);
    LCD_send8(0,0x08);
-   LCD_send8(0,1);
+   LCD_send8(0,2);
    LCD_send8(0,6); 
+   
+   LCD_send8(0,0x0E);
 }
 
 
