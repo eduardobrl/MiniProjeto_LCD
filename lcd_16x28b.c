@@ -35,16 +35,15 @@ void LCD_delay_ms(unsigned char time)
 //**************************************************************************
 //* Retorno : nada
 //**************************************************************************
+  DATA_TYPE     dt;
 void LCD_send8(char addr, char data )
 {
+
+  dt.value = data;
+  
   // configura a linha rs dependendo do modo selecionado
-  PIN_LCD_RS = addr;      // faz pino RS assumir 0 para comando ou 1 para dado
-  LCD_delay_ms(1);        // Aguarda 1ms
-  PORT_LCD_DATA8 = data;  // coloca dados ou comando no port conectado ao D16x2
- 
-  PIN_LCD_EN = 1;   // habilita LCD para receber dados ou comando
-  LCD_delay_ms(1);  // Aguarda 1ms
-  PIN_LCD_EN = 0;   // desabilita LCD para receber dados ou comando
+  LCD_send4(addr, dt.high);
+  LCD_send4(addr, dt.low);
 }
 
 //**************************************************************************
@@ -58,6 +57,7 @@ void LCD_send8(char addr, char data )
 //**************************************************************************
 void LCD_send4(char addr, char data )
 {
+  
   // configura a linha rs dependendo do modo selecionado
   PIN_LCD_RS = addr;      // faz pino RS assumir 0 para comando ou 1 para dado
   LCD_delay_ms(1);        // Aguarda 1ms
@@ -72,7 +72,7 @@ void LCD_send4(char addr, char data )
 
 
 //**************************************************************************
-//* Fun��o de inicializa��o do display em modo 8 bits
+//* Fun��o de inicializa��o do display em modo 4 bits
 //**************************************************************************
 //* Argumentos de chamada:
 //
@@ -96,49 +96,24 @@ void LCD_init_4_bits(void)
   // envia uma seq��ncia de 3 vezes 0x03 e depois 0x02 para iniciar o Display
   // conforme fluxograma no datasheet
   
-    LCD_send4(PIN_LCD_RS_0,0x30); // Envia comando para inicializar o display 
+    LCD_send4(PIN_LCD_RS_0,0x03); // Envia comando para inicializar o display 
     LCD_delay_ms(5);              // Aguarda 5ms
     
-    LCD_send4(PIN_LCD_RS_0,0x30); // Envia comando para inicializar o display 
+    LCD_send4(PIN_LCD_RS_0,0x03); // Envia comando para inicializar o display 
     LCD_delay_ms(5);              // Aguarda 5ms
 
-    LCD_send4(PIN_LCD_RS_0,0x30); // Envia comando para inicializar o display 
+    LCD_send4(PIN_LCD_RS_0,0x03); // Envia comando para inicializar o display 
     LCD_delay_ms(5);              // Aguarda 5ms
     
     //*******************************************************
-    LCD_send4(PIN_LCD_RS_0,0x30); // 2 linhas 
+    LCD_send4(PIN_LCD_RS_0,0x02); // 2 linhas 
     LCD_delay_ms(5);              // Aguarda 5ms 
     //******************************************************
-    LCD_send4(PIN_LCD_RS_0,0x20); 
-    LCD_delay_ms(5);
-    LCD_send4(PIN_LCD_RS_0,0x80);  
-    LCD_delay_ms(5);
-
-    //*********************Display_OFF***********************
-    LCD_send4(PIN_LCD_RS_0,0x30); 
-    LCD_delay_ms(5);              
-    LCD_send4(PIN_LCD_RS_0,0x80); 
-    LCD_delay_ms(5);
-    //*******************************************************
-
-    //********************Display_ON*************************
-    LCD_send4(PIN_LCD_RS_0,0x30); // ENTRY MODE SET - Desloca o cursor para a 
-                                  // para a direita
-    LCD_delay_ms(5);              // Aguarda 5ms
-    LCD_send4(PIN_LCD_RS_0,0x10 ); // ENTRY MODE SET - Desloca o cursor para a 
-                                  // para a direita
-    LCD_delay_ms(5);              // Aguarda 5ms
-    //*******************************************************
-
-    //*******************ENTRY_MODE**************************
-    LCD_send4(PIN_LCD_RS_0,0x60); // ENTRY MODE SET - Desloca o cursor para a direita  
-    LCD_delay_ms(5);              // Aguarda 5ms
-
-    LCD_send4(PIN_LCD_RS_0,0x00); // DISPLAY CONTROL= Display ligado, sem cursor  
-    LCD_delay_ms(5);              // Aguarda 5ms
-    LCD_send4(PIN_LCD_RS_0,0xC0); // DISPLAY CONTROL= Display ligado, sem cursor  
-    LCD_delay_ms(5);              // Aguarda 5ms
-    
+   // envia códigos de inicialização do display
+   LCD_send8(0,0x28);
+   LCD_send8(0,0x08);
+   LCD_send8(0,1);
+   LCD_send8(0,6); 
 }
 
 

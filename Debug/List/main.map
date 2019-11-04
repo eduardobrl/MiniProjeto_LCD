@@ -1,13 +1,13 @@
 ###############################################################################
 #
-# IAR ELF Linker V4.10.1.2197 for RL78                    21/Oct/2019  18:23:33
+# IAR ELF Linker V4.10.1.2197 for RL78                    03/Nov/2019  22:39:32
 # Copyright 2011-2018 IAR Systems AB.
 #
 #    Output file  =  F:\Projetos\Renesas\FEI\MIniProjeto_LCD\Debug\Exe\main.out
 #    Map file     =  
 #        F:\Projetos\Renesas\FEI\MIniProjeto_LCD\Debug\List\main.map
 #    Command line =  
-#        -f C:\Users\EDUARD~1.BRA\AppData\Local\Temp\EWE390.tmp
+#        -f C:\Users\EDUARD~1.BRA\AppData\Local\Temp\EW8AB0.tmp
 #        (F:\Projetos\Renesas\FEI\MIniProjeto_LCD\Debug\Obj\lcd_16x28b.o
 #        F:\Projetos\Renesas\FEI\MIniProjeto_LCD\Debug\Obj\main.o
 #        --no_out_extension -o
@@ -71,6 +71,17 @@ define block SECUR_ID
           ro R_CONST_init, ro section .const, ro section .switch };
 "ROMNEAR":
        place in [from 0xd8 to 0xffff] { R_TEXT, ro section .text };
+define block INIT_ARRAY
+   with fixed order, alignment = 2 {
+      ro section .preinit_array, ro section .init_array };
+define block INIT_ARRAY_TLS
+   with fixed order, alignment = 2 {
+      ro section .preinit_array_tls, ro section .init_array_tls };
+"ROMFAR":
+       place in [from 0xd8 to 0xffff] {
+          block INIT_ARRAY, block INIT_ARRAY_TLS, R_TEXTF_UNIT64KP,
+          ro section .textf_unit64kp, ro section .constf, ro section .switchf,
+          ro };
 "ROMHUGE":
        place in [from 0xd8 to 0xffff] {
           ro section .consth, R_TEXTF, ro section .textf };
@@ -113,7 +124,6 @@ No sections matched the following patterns:
   ro section .switch             in "MIRROR"
   ro section .switchf            in "ROMFAR"
   ro section .textf_unit64kp     in "ROMFAR"
-  rw section .bss*               in "RAMNEAR"
   rw section .bss_unit64kp       in "RAMFAR"
   rw section .bssf*              in "RAMFAR"
   rw section .data               in "RAMNEAR"
@@ -126,84 +136,104 @@ No sections matched the following patterns:
   zi section .iar.dynexit        in "RAMNEAR"
 
 
-  Section       Kind      Address   Size  Object
-  -------       ----      -------   ----  ------
-"A0":                                0x2
-  .reset        const         0x0    0x2  interrupt_vector.o [3]
-                            - 0x2    0x2
+  Section          Kind      Address   Size  Object
+  -------          ----      -------   ----  ------
+"A0":                                   0x2
+  .reset           const         0x0    0x2  interrupt_vector.o [3]
+                               - 0x2    0x2
 
-"A1":                               0x7c
-  .intvec       const         0x4   0x7c  interrupt_vector.o [3]
-                           - 0x80   0x7c
+"A1":                                  0x7c
+  .intvec          const         0x4   0x7c  interrupt_vector.o [3]
+                              - 0x80   0x7c
 
-"A2":                                0x4
-  OPT_BYTE                   0xc0    0x4  <Block>
-    OPTBYTE     const        0xc0    0x1  main.o [1]
-    OPTBYTE     const        0xc1    0x1  main.o [1]
-    OPTBYTE     const        0xc2    0x1  main.o [1]
-    OPTBYTE     const        0xc3    0x1  main.o [1]
-                           - 0xc4    0x4
+"A2":                                   0x4
+  OPT_BYTE                      0xc0    0x4  <Block>
+    OPTBYTE        const        0xc0    0x1  main.o [1]
+    OPTBYTE        const        0xc1    0x1  main.o [1]
+    OPTBYTE        const        0xc2    0x1  main.o [1]
+    OPTBYTE        const        0xc3    0x1  main.o [1]
+                              - 0xc4    0x4
 
-"A3":                                0xa
-  SECUR_ID                   0xc4    0xa  <Block>
-    SECUID      const        0xc4    0xa  main.o [1]
-                           - 0xce    0xa
+"A3":                                   0xa
+  SECUR_ID                      0xc4    0xa  <Block>
+    SECUID         const        0xc4    0xa  main.o [1]
+                              - 0xce    0xa
 
-"MIRROR":                           0x10
-  .const        const      0x2000    0xc  main.o [1]
-  .const        const      0x200c    0x4  main.o [1]
-                         - 0x2010   0x10
+"MIRROR":                              0x10
+  .const           const      0x2000    0xc  main.o [1]
+  .const           const      0x200c    0x4  main.o [1]
+                            - 0x2010   0x10
 
-"ROMNEAR":                         0x249
-  .text         ro code    0x2010  0x142  lcd_16x28b.o [1]
-  .text         ro code    0x2152   0x8e  main.o [1]
-  .text         ro code    0x21e0   0x3a  cstartup.o [3]
-  .text         ro code    0x221a   0x13  default_handler.o [3]
-  .text         ro code    0x222d   0x11  __dbg_xxexit.o [2]
-  .text         ro code    0x223e    0xb  __dbg_abort.o [2]
-  .text         ro code    0x2249    0x5  cexit.o [3]
-  .text         ro code    0x224e    0x4  low_level_init.o [3]
-  .text         ro code    0x2252    0x4  exit.o [3]
-  .text         ro code    0x2256    0x3  __dbg_break.o [2]
-                         - 0x2259  0x249
+"ROMNEAR":                            0x1fe
+  .text            ro code    0x2010   0xf7  lcd_16x28b.o [1]
+  .text            ro code    0x2107   0x8e  main.o [1]
+  .text            ro code    0x2195   0x3a  cstartup.o [3]
+  .text            ro code    0x21cf   0x13  default_handler.o [3]
+  .text            ro code    0x21e2   0x11  __dbg_xxexit.o [2]
+  .text            ro code    0x21f3    0xb  __dbg_abort.o [2]
+  .text            ro code    0x21fe    0x5  cexit.o [3]
+  .text            ro code    0x2203    0x4  low_level_init.o [3]
+  .text            ro code    0x2207    0x4  exit.o [3]
+  .text            ro code    0x220b    0x3  __dbg_break.o [2]
+                            - 0x220e  0x1fe
 
-"ROMHUGE":                          0x41
-  .textf        ro code    0x2259   0x41  data_init.o [3]
-                         - 0x229a   0x41
+"ROMFAR":                               0x8
+  .iar.init_table  const      0x220e    0x8  - Linker created -
+                            - 0x2216    0x8
 
-"RAMNEAR":                          0x80
-  CSTACK                 0xf'ef00   0x80  <Block>
-    CSTACK      rw data  0xf'ef00    0x0  cstartup.o [3]
-    CSTACK      uninit   0xf'ef00   0x80  <Block tail>
-                       - 0xf'ef80   0x80
+"ROMHUGE":                             0x66
+  .textf           ro code    0x2216   0x41  data_init.o [3]
+  .textf           ro code    0x2257   0x25  near_zero_init.o [3]
+                            - 0x227c   0x66
 
-"SADDRMEM":                          0x0
-  .wrkseg       rw data  0xf'fe20    0x0  cstartup.o [3]
+"RAMNEAR", part 1 of 2:                0x80
+  CSTACK                    0xf'ef00   0x80  <Block>
+    CSTACK         rw data  0xf'ef00    0x0  cstartup.o [3]
+    CSTACK         uninit   0xf'ef00   0x80  <Block tail>
+                          - 0xf'ef80   0x80
 
-Absolute sections, part 1 of 4:      0x1
-  .sbss.noinit  uninit   0xf'ff05    0x1  lcd_16x28b.o [1]
-                       - 0xf'ff06    0x1
+"RAMNEAR", part 2 of 2:                 0x1
+  .bss             zero     0xf'ef80    0x1  lcd_16x28b.o [1]
+                          - 0xf'ef81    0x1
 
-Absolute sections, part 2 of 4:      0x1
-  .sbss.noinit  uninit   0xf'ff07    0x1  lcd_16x28b.o [1]
-                       - 0xf'ff08    0x1
+"SADDRMEM":                             0x0
+  .wrkseg          rw data  0xf'fe20    0x0  cstartup.o [3]
 
-Absolute sections, part 3 of 4:      0x1
-  .bss.noinit   uninit   0xf'ff25    0x1  lcd_16x28b.o [1]
-                       - 0xf'ff26    0x1
+Absolute sections, part 1 of 4:         0x1
+  .sbss.noinit     uninit   0xf'ff05    0x1  lcd_16x28b.o [1]
+                          - 0xf'ff06    0x1
 
-Absolute sections, part 4 of 4:      0x1
-  .bss.noinit   uninit   0xf'ff27    0x1  lcd_16x28b.o [1]
-                       - 0xf'ff28    0x1
+Absolute sections, part 2 of 4:         0x1
+  .sbss.noinit     uninit   0xf'ff07    0x1  lcd_16x28b.o [1]
+                          - 0xf'ff08    0x1
+
+Absolute sections, part 3 of 4:         0x1
+  .bss.noinit      uninit   0xf'ff25    0x1  lcd_16x28b.o [1]
+                          - 0xf'ff26    0x1
+
+Absolute sections, part 4 of 4:         0x1
+  .bss.noinit      uninit   0xf'ff27    0x1  lcd_16x28b.o [1]
+                          - 0xf'ff28    0x1
 
 Unused ranges:
 
       From        To    Size
       ----        --    ----
       0xd8    0x1fff  0x1f28
-    0x229a    0xfdff  0xdb66
-  0xf'ef80  0xf'fe1f   0xea0
+    0x227c    0xfdff  0xdb84
+  0xf'ef81  0xf'fe1f   0xe9f
   0xf'fe20  0xf'fedf    0xc0
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address   Size
+          -------   ----
+Zero (___iar_zero_init_near2)
+    1 destination range, total size 0x1:
+          0xf'ef80   0x1
 
 
 
@@ -219,10 +249,10 @@ command line/config:
     Total:
 
 F:\Projetos\Renesas\FEI\MIniProjeto_LCD\Debug\Obj: [1]
-    lcd_16x28b.o            322                          4
+    lcd_16x28b.o            247                 1        4
     main.o                  142       30
     ------------------------------------------------------
-    Total:                  464       30                 4
+    Total:                  389       30        1        4
 
 dbgrlnnf22nd.a: [2]
     __dbg_abort.o            11
@@ -239,12 +269,13 @@ dlrlnnf22n.a: [3]
     exit.o                    4
     interrupt_vector.o               126
     low_level_init.o          4
+    near_zero_init.o         37
     ------------------------------------------------------
-    Total:                  155      126
+    Total:                  192      126
 
-    Linker created                            128
+    Linker created                     8      128
 ----------------------------------------------------------
-    Grand Total:            650      156      128        4
+    Grand Total:            612      164      129        4
 
 
 *******************************************************************************
@@ -253,97 +284,100 @@ dlrlnnf22n.a: [3]
 
 Entry                    Address  Size  Type      Object
 -----                    -------  ----  ----      ------
-@cend                     0x221a        Code  Gb  cstartup.o [3]
-@cstart                   0x21e0        Code  Gb  cstartup.o [3]
+.iar.init_table$$Base     0x220e         --   Gb  - Linker created -
+.iar.init_table$$Limit    0x2216         --   Gb  - Linker created -
+@cend                     0x21cf        Code  Gb  cstartup.o [3]
+@cstart                   0x2195        Code  Gb  cstartup.o [3]
 CSTACK$$Base            0xf'ef00         --   Gb  - Linker created -
 CSTACK$$Limit           0xf'ef80         --   Gb  - Linker created -
 OPT_BYTE$$Base              0xc0         --   Gb  - Linker created -
 OPT_BYTE$$Limit             0xc4         --   Gb  - Linker created -
-Region$$Table$$Base          0x0         --   Gb  - Linker created -
-Region$$Table$$Limit         0x0         --   Gb  - Linker created -
+Region$$Table$$Base       0x220e         --   Gb  - Linker created -
+Region$$Table$$Limit      0x2216         --   Gb  - Linker created -
 SECUR_ID$$Base              0xc4         --   Gb  - Linker created -
 SECUR_ID$$Limit             0xce         --   Gb  - Linker created -
 _LCD_delay_ms             0x2010  0x15  Code  Gb  lcd_16x28b.o [1]
-_LCD_init_4_bits          0x2063  0xa5  Code  Gb  lcd_16x28b.o [1]
-_LCD_pos_xy               0x2108  0x1f  Code  Gb  lcd_16x28b.o [1]
+_LCD_init_4_bits          0x2063  0x5a  Code  Gb  lcd_16x28b.o [1]
+_LCD_pos_xy               0x20bd  0x1f  Code  Gb  lcd_16x28b.o [1]
 _LCD_send4                0x2044  0x1f  Code  Gb  lcd_16x28b.o [1]
 _LCD_send8                0x2025  0x1f  Code  Gb  lcd_16x28b.o [1]
-_LCD_write_char           0x2127   0xb  Code  Gb  lcd_16x28b.o [1]
-_LCD_write_string         0x2132  0x20  Code  Gb  lcd_16x28b.o [1]
+_LCD_write_char           0x20dc   0xb  Code  Gb  lcd_16x28b.o [1]
+_LCD_write_string         0x20e7  0x20  Code  Gb  lcd_16x28b.o [1]
 _NEAR_CONST_LOCATION {Abs}
                              0x0        Data  Gb  <internal module>
 __A_P5                  0xf'ff05   0x1  Data  Gb  lcd_16x28b.o [1]
 __A_P7                  0xf'ff07   0x1  Data  Gb  lcd_16x28b.o [1]
 __A_PM5                 0xf'ff25   0x1  Data  Gb  lcd_16x28b.o [1]
 __A_PM7                 0xf'ff27   0x1  Data  Gb  lcd_16x28b.o [1]
-___DebugBreak             0x2256   0x3  Code  Gb  __dbg_break.o [2]
-___exit                   0x222d  0x11  Code  Gb  __dbg_xxexit.o [2]
-___iar_data_init2         0x2259  0x41  Code  Gb  data_init.o [3]
+___DebugBreak             0x220b   0x3  Code  Gb  __dbg_break.o [2]
+___exit                   0x21e2  0x11  Code  Gb  __dbg_xxexit.o [2]
+___iar_data_init2         0x2216  0x41  Code  Gb  data_init.o [3]
 ___iar_default_interrupt_handler
-                          0x221a  0x13  Code  Lc  default_handler.o [3]
-___interrupt_0x00         0x21e0        Code  Gb  cstartup.o [3]
-___interrupt_0x04         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x06         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x08         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x0A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x0C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x0E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x10         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x12         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x14         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x16         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x18         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x1A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x1C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x1E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x20         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x22         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x24         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x26         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x28         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x2A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x2C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x2E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x30         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x32         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x34         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x36         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x38         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x3A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x3C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x3E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x40         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x42         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x44         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x46         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x48         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x4A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x4C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x4E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x50         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x52         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x54         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x56         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x58         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x5A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x5C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x5E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x60         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x62         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x64         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x66         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x68         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x6A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x6C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x6E         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x70         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x72         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x74         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x76         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x78         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x7A         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x7C         0x221a  0x13  Code  Wk  default_handler.o [3]
-___interrupt_0x7E         0x221a  0x13  Code  Wk  default_handler.o [3]
+                          0x21cf  0x13  Code  Lc  default_handler.o [3]
+___iar_zero_init_near2    0x2257  0x25  Code  Gb  near_zero_init.o [3]
+___interrupt_0x00         0x2195        Code  Gb  cstartup.o [3]
+___interrupt_0x04         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x06         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x08         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x0A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x0C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x0E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x10         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x12         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x14         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x16         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x18         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x1A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x1C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x1E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x20         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x22         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x24         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x26         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x28         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x2A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x2C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x2E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x30         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x32         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x34         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x36         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x38         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x3A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x3C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x3E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x40         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x42         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x44         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x46         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x48         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x4A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x4C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x4E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x50         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x52         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x54         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x56         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x58         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x5A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x5C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x5E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x60         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x62         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x64         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x66         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x68         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x6A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x6C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x6E         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x70         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x72         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x74         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x76         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x78         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x7A         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x7C         0x21cf  0x13  Code  Wk  default_handler.o [3]
+___interrupt_0x7E         0x21cf  0x13  Code  Wk  default_handler.o [3]
 ___interrupt_tab_0x00        0x0        Data  Gb  interrupt_vector.o [3]
 ___interrupt_tab_0x04        0x4        Data  Gb  interrupt_vector.o [3]
 ___interrupt_tab_0x06        0x6        Data  Gb  interrupt_vector.o [3]
@@ -407,18 +441,19 @@ ___interrupt_tab_0x78       0x78        Data  Gb  interrupt_vector.o [3]
 ___interrupt_tab_0x7A       0x7a        Data  Gb  interrupt_vector.o [3]
 ___interrupt_tab_0x7C       0x7c        Data  Gb  interrupt_vector.o [3]
 ___interrupt_tab_0x7E       0x7e        Data  Gb  interrupt_vector.o [3]
-___low_level_init         0x224e        Code  Wk  low_level_init.o [3]
-__exit                    0x2249        Code  Gb  cexit.o [3]
-__iar_exit_end            0x224e        Code  Gb  cexit.o [3]
-__iar_program_start       0x21e0        Code  Gb  cstartup.o [3]
+___low_level_init         0x2203        Code  Wk  low_level_init.o [3]
+__exit                    0x21fe        Code  Gb  cexit.o [3]
+__iar_exit_end            0x2203        Code  Gb  cexit.o [3]
+__iar_program_start       0x2195        Code  Gb  cstartup.o [3]
 __link_file_version_2 {Abs}
                              0x1        Data  Gb  <internal module>
-__program_end             0x221a        Code  Gb  cstartup.o [3]
-_abort                    0x223e   0xb  Code  Gb  __dbg_abort.o [2]
-_exit                     0x2252   0x4  Code  Gb  exit.o [3]
+__program_end             0x21cf        Code  Gb  cstartup.o [3]
+_abort                    0x21f3   0xb  Code  Gb  __dbg_abort.o [2]
+_dt                     0xf'ef80   0x1  Data  Gb  lcd_16x28b.o [1]
+_exit                     0x2207   0x4  Code  Gb  exit.o [3]
 _interrupt_vector_table
                              0x0        Data  Gb  interrupt_vector.o [3]
-_main                     0x2152  0x8e  Code  Gb  main.o [1]
+_main                     0x2107  0x8e  Code  Gb  main.o [1]
 _opbyte0                    0xc0   0x1  Data  Gb  main.o [1]
 _opbyte1                    0xc1   0x1  Data  Gb  main.o [1]
 _opbyte2                    0xc2   0x1  Data  Gb  main.o [1]
@@ -430,9 +465,9 @@ _senha                      0xc4   0xa  Data  Gb  main.o [1]
 [2] = dbgrlnnf22nd.a
 [3] = dlrlnnf22n.a
 
-  650 bytes of readonly  code memory
-  156 bytes of readonly  data memory
-  128 bytes of readwrite data memory (+ 4 absolute)
+  612 bytes of readonly  code memory
+  164 bytes of readonly  data memory
+  129 bytes of readwrite data memory (+ 4 absolute)
 
 Errors: none
 Warnings: none

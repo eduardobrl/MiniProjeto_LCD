@@ -30282,6 +30282,146 @@
     "scope": null
   },
   {
+    "ID": "c:@F@LCD_delay_ms",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_delay_ms(unsigned char)",
+    "location": {
+      "column": "6",
+      "line": "19",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_delay_ms",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:lcd_16x28b.c@943@F@LCD_delay_ms@temp",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "temp",
+    "location": {
+      "column": "16",
+      "line": "21",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "temp",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@dt",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "dt",
+    "location": {
+      "column": "17",
+      "line": "38",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "dt",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_send8",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_send8(char, char)",
+    "location": {
+      "column": "6",
+      "line": "39",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_send8",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_send4",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_send4(char, char)",
+    "location": {
+      "column": "6",
+      "line": "58",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_send4",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_init_4_bits",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_init_4_bits(void)",
+    "location": {
+      "column": "6",
+      "line": "82",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_init_4_bits",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_pos_xy",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_pos_xy(char, char)",
+    "location": {
+      "column": "6",
+      "line": "131",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_pos_xy",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_write_char",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_write_char(char)",
+    "location": {
+      "column": "6",
+      "line": "150",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_write_char",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@LCD_write_string",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void LCD_write_string(char *)",
+    "location": {
+      "column": "6",
+      "line": "170",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "LCD_write_string",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:lcd_16x28b.c@7176@F@LCD_write_string@dado",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "dado",
+    "location": {
+      "column": "8",
+      "line": "173",
+      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
+    },
+    "name": "dado",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:intrinsics.h@415@macro@__INTRINSICS_INCLUDED",
     "What": "MacroDef",
     "defdec": "Def",
@@ -32217,132 +32357,6 @@
     },
     "name": "__WEAK_DEFS",
     "origin": "system_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_delay_ms",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_delay_ms(unsigned char)",
-    "location": {
-      "column": "6",
-      "line": "19",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_delay_ms",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:lcd_16x28b.c@943@F@LCD_delay_ms@temp",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "temp",
-    "location": {
-      "column": "16",
-      "line": "21",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "temp",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_send8",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_send8(char, char)",
-    "location": {
-      "column": "6",
-      "line": "38",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_send8",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_send4",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_send4(char, char)",
-    "location": {
-      "column": "6",
-      "line": "59",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_send4",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_init_4_bits",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_init_4_bits(void)",
-    "location": {
-      "column": "6",
-      "line": "82",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_init_4_bits",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_pos_xy",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_pos_xy(char, char)",
-    "location": {
-      "column": "6",
-      "line": "156",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_pos_xy",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_write_char",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_write_char(char)",
-    "location": {
-      "column": "6",
-      "line": "175",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_write_char",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@LCD_write_string",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void LCD_write_string(char *)",
-    "location": {
-      "column": "6",
-      "line": "195",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "LCD_write_string",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:lcd_16x28b.c@8657@F@LCD_write_string@dado",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "dado",
-    "location": {
-      "column": "8",
-      "line": "198",
-      "path": "F:\\Projetos\\Renesas\\FEI\\MIniProjeto_LCD\\lcd_16x28b.c"
-    },
-    "name": "dado",
-    "origin": "project_file",
     "scope": null
   },
   {
